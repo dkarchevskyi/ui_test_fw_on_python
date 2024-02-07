@@ -12,7 +12,7 @@ class TextBoxPage(BasePage):
         self.element_is_visible(self.locators.CURRENT_ADDRESS).send_keys('fsdf')
         self.element_is_visible(self.locators.PERMANENT_ADDRESS).send_keys('sfsdf')
         self.element_is_visible(self.locators.SUBMIT).click()
-        time.sleep(5)
+        time.sleep(3)
 
 
     def check_filled_form(self):
