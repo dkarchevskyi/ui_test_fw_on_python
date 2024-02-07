@@ -1,5 +1,4 @@
 import time
-
 from locators.elements_page_locators import TextBoxPageLocators
 from pages.base_page import BasePage
 
@@ -13,7 +12,6 @@ class TextBoxPage(BasePage):
         self.element_is_visible(self.locators.PERMANENT_ADDRESS).send_keys('sfsdf')
         self.element_is_visible(self.locators.SUBMIT).click()
         time.sleep(3)
-
 
     def check_filled_form(self):
         full_name = self.element_is_present(self.locators.CREATED_FULL_NAME).text.split(':')[1]
