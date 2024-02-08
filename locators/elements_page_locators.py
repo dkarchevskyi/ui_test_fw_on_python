@@ -14,4 +14,4 @@ class TextBoxPageLocators:
     CREATED_FULL_NAME = (By.CSS_SELECTOR, "#output #name")
     CREATED_EMAIL = (By.CSS_SELECTOR, '#output #email')
     CREATED_CURRENT_ADDRESS = (By.CSS_SELECTOR, '#output #currentAddress')
-    CREATED_PERMANENT_ADDRESS = (By.CSS_SELECTOR, '#output #currentAddress')
+    CREATED_PERMANENT_ADDRESS = (By.CSS_SELECTOR, '#output #permanentAddress')
