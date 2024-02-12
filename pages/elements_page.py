@@ -40,7 +40,7 @@ class CheckBoxPage(BasePage):
         item_list = self.elements_are_visible(self.locators.ITEM_LIST)
         count = 21
         while count != 0:
-            item = item_list[random.randint(1,15)]
+            item = item_list[random.randint(1, 15)]
             if count > 0:
                 self.go_to_element(item)
                 item.click()

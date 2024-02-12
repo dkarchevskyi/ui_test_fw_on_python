@@ -29,4 +29,4 @@ class TestElements:
             check_box_page.open()
             check_box_page.open_full_list()
             check_box_page.click_random_checkbox()
-            time.sleep(5)
+            time.sleep(2)
