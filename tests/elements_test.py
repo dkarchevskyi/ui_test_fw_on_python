@@ -1,6 +1,6 @@
-import pytest
-from pages.base_page import BasePage
 import time
+import pytest
+
 from pages.elements_page import TextBoxPage, CheckBoxPage
 
 
