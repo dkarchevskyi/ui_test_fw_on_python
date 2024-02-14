@@ -44,8 +44,17 @@ class CheckBoxPage(BasePage):
             if count > 0:
                 self.go_to_element(item)
                 item.click()
+                # print(item.text)
                 count -= 1
-                print(item)
             else:
                 break
 
+    def get_check_checkboxes(self):
+        checked_list = self.elements_are_present(self.locators.CHECKED_ITEMS)
+        # print(checked_list)
+        data = []
+        for box in checked_list:
+            title_items = box.find_elements(*self.locators.TITLE_ITEM)
+            for title_item in title_items:
+                data.append(title_item.text)
+        print(data)
