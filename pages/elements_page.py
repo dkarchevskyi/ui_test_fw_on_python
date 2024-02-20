@@ -106,6 +106,22 @@ class WebTablePage(BasePage):
             self.element_is_visible(self.locators.DEPARTMENT_INPUT).send_keys(department)
             self.element_is_visible(self.locators.SUBMIT).click()
             count -= 1
-            return first_name, last_name, email, age, salary, department
+            return [first_name, last_name, str(age), email, str(salary), department]
 
+    def check_new_added_person(self):
+        persons_list = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
+        data = []
+        for item in persons_list:
+            data.append(item.text.splitlines())
+        return data
 
+    def search_some_person(self, keyword):
+        time.sleep(1)
+        self.element_is_visible(self.locators.SEARCH_INPUT).send_keys(keyword)
+
+    def check_search_person(self):
+        delete_button = self.element_is_present(self.locators.DELETE_BUTTON)
+        row = delete_button.find_element(*self.locators.PARENT_ROW)
+        #row = self.element_is_present(*self.locators.PARENT_ROW)
+        #print(row.text.splitlines())
+        return row.text.splitlines()
