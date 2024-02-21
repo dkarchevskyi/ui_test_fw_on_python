@@ -72,4 +72,30 @@ class TestElements:
             result_table = web_table_page.check_search_person()
             assert search_keyword in result_table, "searched person data was not found in the table"
 
+        @pytest.mark.webtable
+        def test_web_table_update_person_info(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            last_name = web_table_page.add_new_person()[1]
+            web_table_page.search_some_person(last_name)
+            age = web_table_page.update_person_info()
+            row = web_table_page.check_search_person()
+            assert age in row, "Age was not changed"
+
+        @pytest.mark.webtable
+        def test_web_table_delete_person(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            email = web_table_page.add_new_person()[3]
+            web_table_page.search_some_person(email)
+            web_table_page.delete_person()
+            text = web_table_page.check_deleted_person()
+            assert text == "No rows found"
+
+        @pytest.mark.webtable
+        def test_web_table_rows_quantity(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+
+
 
