@@ -1,6 +1,8 @@
 import random
 import time
 
+from selenium.webdriver.common.by import By
+
 from generator.generator import generated_person
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
     WebTablePageLocators
@@ -122,10 +124,9 @@ class WebTablePage(BasePage):
     def check_search_person(self):
         delete_button = self.element_is_present(self.locators.DELETE_BUTTON)
         row = delete_button.find_element(*self.locators.PARENT_ROW)
-        #row = self.element_is_present(*self.locators.PARENT_ROW)
-        #print(row.text.splitlines())
         return row.text.splitlines()
 
+    # need to upgrade this test to use random field from table
     def update_person_info(self):
         person_info = next(generated_person())
         age = person_info.age
@@ -140,3 +141,18 @@ class WebTablePage(BasePage):
 
     def check_deleted_person(self):
         return self.element_is_present(self.locators.NOT_FOUND).text
+
+    def check_rows_count(self):
+        list_rows = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
+        return len(list_rows)
+
+    def select_rows_quantity(self):
+        count = [5, 10, 20, 25, 50, 100]
+        data = []
+        for x in count:
+            row_quantity_button = self.element_is_visible(self.locators.ROWS_QUANTITY)
+            self.go_to_element(row_quantity_button)
+            row_quantity_button.click()
+            self.element_is_visible((By.CSS_SELECTOR, f"option[value='{x}']")).click()
+            data.append(self.check_rows_count())
+        return data

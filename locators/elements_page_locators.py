@@ -51,6 +51,7 @@ class WebTablePageLocators:
     NOT_FOUND = (By.CSS_SELECTOR, "div[class='rt-noData']")
     
     ROW = (By.CSS_SELECTOR, "div[class='rt-tr-group']")
+    ROWS_QUANTITY = (By.CSS_SELECTOR, "select[aria-label='rows per page']")
 
     #update
     UPDATE_BUTTON = (By.CSS_SELECTOR, "span[title='Edit']")

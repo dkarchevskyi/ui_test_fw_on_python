@@ -72,6 +72,7 @@ class TestElements:
             result_table = web_table_page.check_search_person()
             assert search_keyword in result_table, "searched person data was not found in the table"
 
+        # need to upgrade this test to use random field from table
         @pytest.mark.webtable
         def test_web_table_update_person_info(self, driver):
             web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
@@ -82,6 +83,7 @@ class TestElements:
             row = web_table_page.check_search_person()
             assert age in row, "Age was not changed"
 
+        # need to upgrade this test to use random field from table
         @pytest.mark.webtable
         def test_web_table_delete_person(self, driver):
             web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
@@ -93,9 +95,8 @@ class TestElements:
             assert text == "No rows found"
 
         @pytest.mark.webtable
-        def test_web_table_rows_quantity(self, driver):
+        def test_web_table_rows_quantity_change(self, driver):
             web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
             web_table_page.open()
-
-
-
+            count = web_table_page.select_rows_quantity()
+            assert count == [5, 10, 20, 25, 50, 100], "Rows quantity is not correct"
