@@ -1,7 +1,8 @@
+import random
 import time
 import pytest
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
 
 
 class TestElements:
@@ -51,3 +52,51 @@ class TestElements:
             assert output_yes == 'Yes', "Yes button was not clicked"
             assert output_impressive == 'Impressive', "Impressive button was not clicked"
             assert output_no == 'No', "No button was not clicked"  # Should fail due to bug on the page
+
+    class TestWebTable:
+
+        @pytest.mark.webtable
+        def test_web_table_add_person(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            new_person = web_table_page.add_new_person()
+            table_result = web_table_page.check_new_added_person()
+            assert new_person in table_result, "new person data was added incorrectly"
+
+        @pytest.mark.webtable
+        def test_web_table_search_person(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            search_keyword = web_table_page.add_new_person()[random.randint(0, 5)]
+            web_table_page.search_some_person(search_keyword)
+            result_table = web_table_page.check_search_person()
+            assert search_keyword in result_table, "searched person data was not found in the table"
+
+        # need to upgrade this test to use random field from table
+        @pytest.mark.webtable
+        def test_web_table_update_person_info(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            last_name = web_table_page.add_new_person()[1]
+            web_table_page.search_some_person(last_name)
+            age = web_table_page.update_person_info()
+            row = web_table_page.check_search_person()
+            assert age in row, "Age was not changed"
+
+        # need to upgrade this test to use random field from table
+        @pytest.mark.webtable
+        def test_web_table_delete_person(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            email = web_table_page.add_new_person()[3]
+            web_table_page.search_some_person(email)
+            web_table_page.delete_person()
+            text = web_table_page.check_deleted_person()
+            assert text == "No rows found"
+
+        @pytest.mark.webtable
+        def test_web_table_rows_quantity_change(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            count = web_table_page.select_rows_quantity()
+            assert count == [5, 10, 20, 25, 50, 100], "Rows quantity is not correct"
