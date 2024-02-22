@@ -99,4 +99,4 @@ class TestElements:
             web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
             web_table_page.open()
             count = web_table_page.select_rows_quantity()
-            assert count == [5, 10, 20, 25, 50, 100], "Rows quantity is not correct"
+            assert count == [5, 10, 20, 25, 50, 100], "Proper rows quantity is not selected"
