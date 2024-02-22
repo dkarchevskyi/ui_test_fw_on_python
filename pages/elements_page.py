@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 
 from generator.generator import generated_person
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePageLocators
+    WebTablePageLocators, ButtonsPageLocators
 from pages.base_page import BasePage
 
 
@@ -156,3 +156,26 @@ class WebTablePage(BasePage):
             self.element_is_visible((By.CSS_SELECTOR, f"option[value='{x}']")).click()
             data.append(self.check_rows_count())
         return data
+
+
+class ButtonsPage(BasePage):
+
+    locators = ButtonsPageLocators()
+
+    def click_on_buttons(self, type_click):
+        if type_click == "double":
+            self.action_double_click(self.element_is_visible(self.locators.DOUBLE_CLICK_BUTTON))
+            return self.check_click_confirmation_text(self.locators.DOUBLE_CLICK_BUTTON_CONFIRMATION_TEXT)
+
+        if type_click == "right":
+            self.action_right_click(self.element_is_visible(self.locators.RIGHT_CLICK_BUTTON))
+            return self.check_click_confirmation_text(self.locators.RIGHT_CLICK_BUTTON_CONFIRMATION_TEXT)
+
+        if type_click == "click":
+            click_button = self.element_is_visible(self.locators.CLICK_ME_BUTTON)
+            self.go_to_element(click_button)
+            click_button.click()
+            return self.check_click_confirmation_text(self.locators.CLICK_ME_BUTTON_CONFIRMATION_TEXT)
+
+    def check_click_confirmation_text(self, element):
+        return self.element_is_present(element).text

@@ -2,7 +2,7 @@ import random
 import time
 import pytest
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage
 
 
 class TestElements:
@@ -100,3 +100,17 @@ class TestElements:
             web_table_page.open()
             count = web_table_page.select_rows_quantity()
             assert count == [5, 10, 20, 25, 50, 100], "Proper rows quantity is not selected"
+
+
+class TestButtonPage:
+
+    # plan to divide into 3 separate tests
+    def test_different_click_on_buttons_types(self, driver):
+        button_page = ButtonsPage(driver, 'https://demoqa.com/buttons')
+        button_page.open()
+        double = button_page.click_on_buttons('double')
+        right = button_page.click_on_buttons('right')
+        click = button_page.click_on_buttons('click')
+        assert double == "You have done a double click", "Double click button was not clicked"
+        assert right == "You have done a right click", "Right click button was not clicked"
+        assert click == "You have done a dynamic click", "Single click button was not clicked"
