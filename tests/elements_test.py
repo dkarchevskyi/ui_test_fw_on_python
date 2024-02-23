@@ -104,16 +104,25 @@ class TestElements:
 
 class TestButtonPage:
 
-    # plan to divide into 3 separate tests
     @pytest.mark.buttons
-    def test_different_click_on_buttons_types(self, driver):
+    def test_double_click_button(self, driver):
         button_page = ButtonsPage(driver, 'https://demoqa.com/buttons')
         button_page.open()
-        double = button_page.click_on_buttons('double')
-        right = button_page.click_on_buttons('right')
-        click = button_page.click_on_buttons('click')
+        double = button_page.double_click_button()
         assert double == "You have done a double click", "Double click button was not clicked"
+
+    @pytest.mark.buttons
+    def test_right_click_button(self, driver):
+        button_page = ButtonsPage(driver, 'https://demoqa.com/buttons')
+        button_page.open()
+        right = button_page.right_click_button()
         assert right == "You have done a right click", "Right click button was not clicked"
+
+    @pytest.mark.buttons
+    def test_simple_click_button(self, driver):
+        button_page = ButtonsPage(driver, 'https://demoqa.com/buttons')
+        button_page.open()
+        click = button_page.click_me_button()
         assert click == "You have done a dynamic click", "Single click button was not clicked"
 
 
