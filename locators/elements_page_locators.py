@@ -74,3 +74,9 @@ class LinksPageLocators:
     UNAUTHORIZED_LINK = (By.CSS_SELECTOR, "a[id='unauthorized']")
     FORBIDDEN_LINK = (By.CSS_SELECTOR, "a[id='forbidden']")
     NOT_FOUND_LINK = (By.CSS_SELECTOR, "a[id='invalid-url']")
+
+
+class UploadDownloadPageLocators:
+    DOWNLOAD_FILE_BUTTON = (By.CSS_SELECTOR, "a[id='downloadButton']")
+    UPLOAD_FILE_BUTTON = (By.CSS_SELECTOR, "input[id='uploadFile']")
+    UPLOADED_FILE_PATH = (By.CSS_SELECTOR, "p[id='uploadedFilePath']")

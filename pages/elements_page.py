@@ -1,3 +1,4 @@
+import os
 import random
 import time
 
@@ -5,9 +6,9 @@ import requests
 from selenium.webdriver.common.by import By
 from urllib3.util import url
 
-from generator.generator import generated_person
+from generator.generator import generated_person, generated_file
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePageLocators, ButtonsPageLocators, LinksPageLocators
+    WebTablePageLocators, ButtonsPageLocators, LinksPageLocators, UploadDownloadPageLocators
 from pages.base_page import BasePage
 
 
@@ -161,7 +162,6 @@ class WebTablePage(BasePage):
 
 
 class ButtonsPage(BasePage):
-
     locators = ButtonsPageLocators()
 
     def double_click_button(self):
@@ -183,7 +183,6 @@ class ButtonsPage(BasePage):
 
 
 class LinksPage(BasePage):
-
     locators = LinksPageLocators()
 
     def check_new_tab_simple_link(self):
@@ -258,3 +257,18 @@ class LinksPage(BasePage):
             self.element_is_visible(self.locators.NOT_FOUND_LINK).click()
         else:
             return request.status_code
+
+
+class UploadDownloadPage(BasePage):
+    locators = UploadDownloadPageLocators()
+
+    # def download_file(self):
+    #
+
+    def upload_file(self):
+        file_name, path = generated_file()
+        self.element_is_present(self.locators.UPLOAD_FILE_BUTTON).send_keys(path)
+        os.remove(path)
+        path_text = self.element_is_present(self.locators.UPLOADED_FILE_PATH).text
+        return file_name, path_text
+

@@ -2,7 +2,9 @@ import random
 import time
 import pytest
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage
+import generator.generator
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
+    UploadDownloadPage
 
 
 class TestElements:
@@ -196,3 +198,19 @@ class TestLinksPage:
         response_code = links_page.check_invalid_url_link('https://demoqa.com/invalid-url')
         # print(response_code)
         assert response_code == 404, "Link works or status code is not 404"
+
+
+class TestUploadDownload:
+
+    @pytest.mark.upload_download
+    def test_upload_file(self, driver):
+        upload_download_page = UploadDownloadPage(driver, 'https://demoqa.com/upload-download')
+        upload_download_page.open()
+        upload_download_page.upload_file()
+        # assert generator.generator.generated_file()
+
+
+    @pytest.mark.upload_download
+    def test_download_file(self, driver):
+        upload_download_page = UploadDownloadPage(driver, 'https://demoqa.com/upload-download')
+        upload_download_page.open()
