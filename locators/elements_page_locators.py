@@ -66,6 +66,7 @@ class ButtonsPageLocators:
 
 class LinksPageLocators:
     SIMPLE_LINK = (By.CSS_SELECTOR, "a[id='simpleLink']")
+    DYNAMIC_LINK = (By.CSS_SELECTOR, "a[id='dynamicLink']")
     CREATED_LINK = (By.CSS_SELECTOR, "a[id='created']")
     NO_CONTENT_LINK = (By.CSS_SELECTOR, "a[id='no-content']")
     MOVED_LINK = (By.CSS_SELECTOR, "a[id='moved']")
