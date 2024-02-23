@@ -2,7 +2,7 @@ import random
 import time
 import pytest
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage
 
 
 class TestElements:
@@ -105,6 +105,7 @@ class TestElements:
 class TestButtonPage:
 
     # plan to divide into 3 separate tests
+    @pytest.mark.buttons
     def test_different_click_on_buttons_types(self, driver):
         button_page = ButtonsPage(driver, 'https://demoqa.com/buttons')
         button_page.open()
@@ -114,3 +115,68 @@ class TestButtonPage:
         assert double == "You have done a double click", "Double click button was not clicked"
         assert right == "You have done a right click", "Right click button was not clicked"
         assert click == "You have done a dynamic click", "Single click button was not clicked"
+
+
+class TestLinksPage:
+
+    @pytest.mark.links
+    def test_check_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        href_link, current_url = links_page.check_new_tab_simple_link()
+        assert href_link == current_url, "Link url and opened url are not same"
+
+    @pytest.mark.links
+    def test_check_created_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_created_link('https://demoqa.com/created')
+        # print(response_code)
+        assert response_code == 201, "Link works or status code is not 201"
+
+    @pytest.mark.links
+    def test_check_no_content_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_no_content_link('https://demoqa.com/no-content')
+        # print(response_code)
+        assert response_code == 204, "Link works or status code is not 204"
+
+    @pytest.mark.links
+    def test_check_moved_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_moved_link('https://demoqa.com/moved')
+        # print(response_code)
+        assert response_code == 301, "Link works or status code is not 301"
+
+    @pytest.mark.links
+    def test_check_bad_request_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_bad_request_link('https://demoqa.com/bad-request')
+        assert response_code == 400, "Link works or status code is not 400"
+
+    @pytest.mark.links
+    def test_check_unauthorized_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_unauthorized_link('https://demoqa.com/unauthorized')
+        # print(response_code)
+        assert response_code == 401, "Link works or status code is not 401"
+
+    @pytest.mark.links
+    def test_check_forbidden_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_forbidden_link('https://demoqa.com/forbidden')
+        # print(response_code)
+        assert response_code == 403, "Link works or status code is not 403"
+
+    @pytest.mark.links
+    def test_check_invalid_url_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_invalid_url_link('https://demoqa.com/invalid-url')
+        # print(response_code)
+        assert response_code == 404, "Link works or status code is not 404"

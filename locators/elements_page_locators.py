@@ -62,3 +62,14 @@ class ButtonsPageLocators:
     DOUBLE_CLICK_BUTTON_CONFIRMATION_TEXT = (By.CSS_SELECTOR, "p[id='doubleClickMessage']")
     RIGHT_CLICK_BUTTON_CONFIRMATION_TEXT = (By.CSS_SELECTOR, "p[id='rightClickMessage']")
     CLICK_ME_BUTTON_CONFIRMATION_TEXT = (By.CSS_SELECTOR, "p[id='dynamicClickMessage']")
+
+
+class LinksPageLocators:
+    SIMPLE_LINK = (By.CSS_SELECTOR, "a[id='simpleLink']")
+    CREATED_LINK = (By.CSS_SELECTOR, "a[id='created']")
+    NO_CONTENT_LINK = (By.CSS_SELECTOR, "a[id='no-content']")
+    MOVED_LINK = (By.CSS_SELECTOR, "a[id='moved']")
+    BAD_REQUEST_LINK = (By.CSS_SELECTOR, "a[id='bad-request']")
+    UNAUTHORIZED_LINK = (By.CSS_SELECTOR, "a[id='unauthorized']")
+    FORBIDDEN_LINK = (By.CSS_SELECTOR, "a[id='forbidden']")
+    NOT_FOUND_LINK = (By.CSS_SELECTOR, "a[id='invalid-url']")
