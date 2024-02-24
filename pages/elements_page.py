@@ -270,5 +270,7 @@ class UploadDownloadPage(BasePage):
         self.element_is_present(self.locators.UPLOAD_FILE_BUTTON).send_keys(path)
         os.remove(path)
         path_text = self.element_is_present(self.locators.UPLOADED_FILE_PATH).text
-        return file_name, path_text
+        # file_name = (os.path.basename(file_name)) #mac os path
+        # path_text = (path_text.split('\\')[-1]) # windows os path
+        return os.path.basename(file_name), path_text.split('\\')[-1]
 

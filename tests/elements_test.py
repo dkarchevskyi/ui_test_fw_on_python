@@ -200,14 +200,15 @@ class TestLinksPage:
         assert response_code == 404, "Link works or status code is not 404"
 
 
-class TestUploadDownload:
+class TestUploadDownloadPage:
 
     @pytest.mark.upload_download
     def test_upload_file(self, driver):
         upload_download_page = UploadDownloadPage(driver, 'https://demoqa.com/upload-download')
         upload_download_page.open()
         upload_download_page.upload_file()
-        # assert generator.generator.generated_file()
+        real_path, on_page_path = upload_download_page.upload_file()
+        assert real_path == on_page_path, "Name of uploaded file does not match"
 
 
     @pytest.mark.upload_download
