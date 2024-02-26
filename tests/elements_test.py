@@ -2,7 +2,9 @@ import random
 import time
 import pytest
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
+import generator.generator
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
+    UploadDownloadPage, DynamicPropertiesPage
 
 
 class TestElements:
@@ -99,4 +101,143 @@ class TestElements:
             web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
             web_table_page.open()
             count = web_table_page.select_rows_quantity()
-            assert count == [5, 10, 20, 25, 50, 100], "Rows quantity is not correct"
+            assert count == [5, 10, 20, 25, 50, 100], "Proper rows quantity is not selected"
+
+
+class TestButtonPage:
+
+    @pytest.mark.buttons
+    def test_double_click_button(self, driver):
+        button_page = ButtonsPage(driver, 'https://demoqa.com/buttons')
+        button_page.open()
+        double = button_page.double_click_button()
+        assert double == "You have done a double click", "Double click button was not clicked"
+
+    @pytest.mark.buttons
+    def test_right_click_button(self, driver):
+        button_page = ButtonsPage(driver, 'https://demoqa.com/buttons')
+        button_page.open()
+        right = button_page.right_click_button()
+        assert right == "You have done a right click", "Right click button was not clicked"
+
+    @pytest.mark.buttons
+    def test_simple_click_button(self, driver):
+        button_page = ButtonsPage(driver, 'https://demoqa.com/buttons')
+        button_page.open()
+        click = button_page.click_me_button()
+        assert click == "You have done a dynamic click", "Single click button was not clicked"
+
+
+class TestLinksPage:
+
+    @pytest.mark.links
+    def test_check_simple_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        href_link, current_url = links_page.check_new_tab_simple_link()
+        assert href_link == current_url, "Link url and opened url are not same"
+
+    @pytest.mark.links
+    def test_check_dynamic_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        href_link, current_url = links_page.check_new_tab_dynamic_link()
+        assert href_link == current_url, "Link url and opened url are not same"
+
+    @pytest.mark.links
+    def test_check_created_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_created_link('https://demoqa.com/created')
+        # print(response_code)
+        assert response_code == 201, "Link works or status code is not 201"
+
+    @pytest.mark.links
+    def test_check_no_content_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_no_content_link('https://demoqa.com/no-content')
+        # print(response_code)
+        assert response_code == 204, "Link works or status code is not 204"
+
+    @pytest.mark.links
+    def test_check_moved_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_moved_link('https://demoqa.com/moved')
+        # print(response_code)
+        assert response_code == 301, "Link works or status code is not 301"
+
+    @pytest.mark.links
+    def test_check_bad_request_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_bad_request_link('https://demoqa.com/bad-request')
+        assert response_code == 400, "Link works or status code is not 400"
+
+    @pytest.mark.links
+    def test_check_unauthorized_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_unauthorized_link('https://demoqa.com/unauthorized')
+        # print(response_code)
+        assert response_code == 401, "Link works or status code is not 401"
+
+    @pytest.mark.links
+    def test_check_forbidden_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_forbidden_link('https://demoqa.com/forbidden')
+        # print(response_code)
+        assert response_code == 403, "Link works or status code is not 403"
+
+    @pytest.mark.links
+    def test_check_invalid_url_link(self, driver):
+        links_page = LinksPage(driver, 'https://demoqa.com/links')
+        links_page.open()
+        response_code = links_page.check_invalid_url_link('https://demoqa.com/invalid-url')
+        # print(response_code)
+        assert response_code == 404, "Link works or status code is not 404"
+
+
+class TestUploadDownloadPage:
+
+    @pytest.mark.upload_download
+    def test_upload_file(self, driver):
+        upload_download_page = UploadDownloadPage(driver, 'https://demoqa.com/upload-download')
+        upload_download_page.open()
+        upload_download_page.upload_file()
+        real_path, on_page_path = upload_download_page.upload_file()
+        assert real_path == on_page_path, "Name of uploaded file does not match"
+
+    @pytest.mark.upload_download
+    def test_download_file(self, driver):
+        upload_download_page = UploadDownloadPage(driver, 'https://demoqa.com/upload-download')
+        upload_download_page.open()
+        download_file_check = upload_download_page.download_file()
+        assert download_file_check is True, "Content of downloaded file is not same to source"
+
+
+class TestDynamicProperties:
+
+    @pytest.mark.dynamic_properties_buttons
+    def test_enable_clickable_button(self,driver):
+        dynamic_properties_page = DynamicPropertiesPage(driver, 'https://demoqa.com/dynamic-properties')
+        dynamic_properties_page.open()
+        clickable_after_5_sec = dynamic_properties_page.check_enabling_clickable_button()
+        assert clickable_after_5_sec is True, "Button is not clickable after 5 sec"
+
+    @pytest.mark.dynamic_properties_buttons
+    def test_dynamic_properties(self, driver):
+        dynamic_properties_page = DynamicPropertiesPage(driver, 'https://demoqa.com/dynamic-properties')
+        dynamic_properties_page.open()
+        color_before, color_after = dynamic_properties_page.check_change_of_color()
+        assert color_before != color_after, "Color text on the button was not changed"
+
+    @pytest.mark.dynamic_properties_buttons
+    def test_appear_of_the_button(self, driver):
+        dynamic_properties_page = DynamicPropertiesPage(driver, 'https://demoqa.com/dynamic-properties')
+        dynamic_properties_page.open()
+        check = dynamic_properties_page.check_appear_of_the_button()
+        assert check is True, "Expected button did not appear in 5 seconds"
+

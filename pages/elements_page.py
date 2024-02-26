@@ -1,11 +1,16 @@
+import base64
+import os
 import random
 import time
 
+import requests
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 
-from generator.generator import generated_person
+from generator.generator import generated_person, generated_file, generated_download_path
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePageLocators
+    WebTablePageLocators, ButtonsPageLocators, LinksPageLocators, UploadDownloadPageLocators, \
+    DynamicPropertiesPageLocators
 from pages.base_page import BasePage
 
 
@@ -156,3 +161,151 @@ class WebTablePage(BasePage):
             self.element_is_visible((By.CSS_SELECTOR, f"option[value='{x}']")).click()
             data.append(self.check_rows_count())
         return data
+
+
+class ButtonsPage(BasePage):
+    locators = ButtonsPageLocators()
+
+    def double_click_button(self):
+        self.action_double_click(self.element_is_visible(self.locators.DOUBLE_CLICK_BUTTON))
+        return self.check_click_confirmation_text(self.locators.DOUBLE_CLICK_BUTTON_CONFIRMATION_TEXT)
+
+    def right_click_button(self):
+        self.action_right_click(self.element_is_visible(self.locators.RIGHT_CLICK_BUTTON))
+        return self.check_click_confirmation_text(self.locators.RIGHT_CLICK_BUTTON_CONFIRMATION_TEXT)
+
+    def click_me_button(self):
+        click_button = self.element_is_visible(self.locators.CLICK_ME_BUTTON)
+        self.go_to_element(click_button)
+        click_button.click()
+        return self.check_click_confirmation_text(self.locators.CLICK_ME_BUTTON_CONFIRMATION_TEXT)
+
+    def check_click_confirmation_text(self, element):
+        return self.element_is_present(element).text
+
+
+class LinksPage(BasePage):
+    locators = LinksPageLocators()
+
+    def check_new_tab_simple_link(self):
+        simple_link = self.element_is_visible(self.locators.SIMPLE_LINK)
+        link_href = simple_link.get_attribute('href')
+        request = requests.get(link_href)
+        if request.status_code == 200:
+            simple_link.click()
+            self.driver.switch_to.window(self.driver.window_handles[1])
+            url = self.driver.current_url
+            return link_href, url
+        else:
+            return request.status_code, link_href
+
+    def check_new_tab_dynamic_link(self):
+        dynamic_link = self.element_is_visible(self.locators.DYNAMIC_LINK)
+        link_href = dynamic_link.get_attribute('href')
+        request = requests.get(link_href)
+        if request.status_code == 200:
+            dynamic_link.click()
+            self.driver.switch_to.window(self.driver.window_handles[1])
+            url = self.driver.current_url
+            return link_href, url
+        else:
+            return request.status_code, link_href
+
+    def check_created_link(self, url):
+        request = requests.get(url)
+        if request.status_code == 200:
+            self.element_is_visible(self.locators.CREATED_LINK).click()
+        else:
+            return request.status_code
+
+    def check_no_content_link(self, url):
+        request = requests.get(url)
+        if request.status_code == 200:
+            self.element_is_visible(self.locators.NO_CONTENT_LINK).click()
+        else:
+            return request.status_code
+
+    def check_moved_link(self, url):
+        request = requests.get(url)
+        if request.status_code == 200:
+            self.element_is_visible(self.locators.MOVED_LINK).click()
+        else:
+            return request.status_code
+
+    def check_bad_request_link(self, url):
+        request = requests.get(url)
+        if request.status_code == 200:
+            self.element_is_visible(self.locators.BAD_REQUEST_LINK).click()
+        else:
+            return request.status_code
+
+    def check_unauthorized_link(self, url):
+        request = requests.get(url)
+        if request.status_code == 200:
+            self.element_is_visible(self.locators.UNAUTHORIZED_LINK).click()
+        else:
+            return request.status_code
+
+    def check_forbidden_link(self, url):
+        request = requests.get(url)
+        if request.status_code == 200:
+            self.element_is_visible(self.locators.FORBIDDEN_LINK).click()
+        else:
+            return request.status_code
+
+    def check_invalid_url_link(self, url):
+        request = requests.get(url)
+        if request.status_code == 200:
+            self.element_is_visible(self.locators.NOT_FOUND_LINK).click()
+        else:
+            return request.status_code
+
+
+class UploadDownloadPage(BasePage):
+    locators = UploadDownloadPageLocators()
+
+    def download_file(self):
+        link = self.element_is_present(self.locators.DOWNLOAD_FILE_BUTTON).get_attribute('href')
+        decoded_link = base64.b64decode(link)
+        generated_path = generated_download_path()
+        with open(generated_path, 'wb+') as f:
+            offset = decoded_link.find(b'\xff\xd8')
+            f.write(decoded_link[offset:])
+            check_file = os.path.exists(generated_path)
+            f.close()
+        os.remove(generated_path)
+        return check_file
+
+    def upload_file(self):
+        file_name, path = generated_file()
+        self.element_is_present(self.locators.UPLOAD_FILE_BUTTON).send_keys(path)
+        os.remove(path)
+        path_text = self.element_is_present(self.locators.UPLOADED_FILE_PATH).text
+        # file_name = (os.path.basename(file_name)) #mac os path
+        # path_text = (path_text.split('\\')[-1]) # windows os path
+        return os.path.basename(file_name), path_text.split('\\')[-1]
+
+
+class DynamicPropertiesPage(BasePage):
+    locators = DynamicPropertiesPageLocators()
+
+    def check_enabling_clickable_button(self):
+        try:
+            clickable_button = self.element_is_clickable(self.locators.CLICKABLE_AFTER_5_SEC_BUTTON)
+        except TimeoutException:
+            return False
+        return True
+
+    def check_change_of_color(self):
+        color_button = self.element_is_present(self.locators.COLOR_CHANGE_BUTTON)
+        color_button_before = color_button.value_of_css_property('color')
+        time.sleep(5)
+        color_button_after = color_button.value_of_css_property('color')
+        return color_button_before, color_button_after
+
+    def check_appear_of_the_button(self):
+        try:
+            appeared_button = self.element_is_visible(self.locators.VISIBLE_AFTER_5_SEC_BUTTON)
+        except TimeoutException:
+            return False
+        return True
