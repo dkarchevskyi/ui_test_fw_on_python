@@ -4,7 +4,7 @@ import pytest
 
 import generator.generator
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
-    UploadDownloadPage
+    UploadDownloadPage, DynamicPropertiesPage
 
 
 class TestElements:
@@ -216,3 +216,28 @@ class TestUploadDownloadPage:
         upload_download_page.open()
         download_file_check = upload_download_page.download_file()
         assert download_file_check is True, "Content of downloaded file is not same to source"
+
+
+class TestDynamicProperties:
+
+    @pytest.mark.dynamic_properties_buttons
+    def test_enable_clickable_button(self,driver):
+        dynamic_properties_page = DynamicPropertiesPage(driver, 'https://demoqa.com/dynamic-properties')
+        dynamic_properties_page.open()
+        clickable_after_5_sec = dynamic_properties_page.check_enabling_clickable_button()
+        assert clickable_after_5_sec is True, "Button is not clickable after 5 sec"
+
+    @pytest.mark.dynamic_properties_buttons
+    def test_dynamic_properties(self, driver):
+        dynamic_properties_page = DynamicPropertiesPage(driver, 'https://demoqa.com/dynamic-properties')
+        dynamic_properties_page.open()
+        color_before, color_after = dynamic_properties_page.check_change_of_color()
+        assert color_before != color_after, "Color text on the button was not changed"
+
+    @pytest.mark.dynamic_properties_buttons
+    def test_appear_of_the_button(self, driver):
+        dynamic_properties_page = DynamicPropertiesPage(driver, 'https://demoqa.com/dynamic-properties')
+        dynamic_properties_page.open()
+        check = dynamic_properties_page.check_appear_of_the_button()
+        assert check is True, "Expected button did not appear in 5 seconds"
+
