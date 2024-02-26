@@ -22,8 +22,15 @@ def generated_person():
 
 def generated_file():
     # path = rf'C:\Users\Denys\PycharmProjects\ui_test_fw_on_python\test_file{random.randint(0, 999)}.txt' #windows path
-    path = rf'/Users/denys/PycharmProjects/ui_testing_fw_python/tests/test_file{random.randint(0, 999)}.txt' #mac path
+    path = rf'/Users/denys/PycharmProjects/ui_testing_fw_python/tests/test_file{random.randint(0, 999)}.txt'  # mac path
     file = open(path, 'w+')
     file.write(f'Hello{random.randint(0, 999)}World{random.randint(0, 999)}')
     file.close()
     return file.name, path
+
+
+def generated_download_path():
+    generated_path = rf'C:\Users\Denys\PycharmProjects\ui_test_fw_on_python\test_file{random.randint(0, 999)}.jpg' #windows path
+    # generated_path = rf'/Users/denys/PycharmProjects/ui_testing_fw_python/tests/test_file{random.randint(0,
+    # 999)}.jpg'  # mac path
+    return generated_path

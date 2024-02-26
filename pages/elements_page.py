@@ -1,12 +1,12 @@
+import base64
 import os
 import random
 import time
 
 import requests
 from selenium.webdriver.common.by import By
-from urllib3.util import url
 
-from generator.generator import generated_person, generated_file
+from generator.generator import generated_person, generated_file, generated_download_path
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
     WebTablePageLocators, ButtonsPageLocators, LinksPageLocators, UploadDownloadPageLocators
 from pages.base_page import BasePage
@@ -262,8 +262,17 @@ class LinksPage(BasePage):
 class UploadDownloadPage(BasePage):
     locators = UploadDownloadPageLocators()
 
-    # def download_file(self):
-    #
+    def download_file(self):
+        link = self.element_is_present(self.locators.DOWNLOAD_FILE_BUTTON).get_attribute('href')
+        decoded_link = base64.b64decode(link)
+        generated_path = generated_download_path()
+        with open(generated_path, 'wb+') as f:
+            offset = decoded_link.find(b'\xff\xd8')
+            f.write(decoded_link[offset:])
+            check_file = os.path.exists(generated_path)
+            f.close()
+        os.remove(generated_path)
+        return check_file
 
     def upload_file(self):
         file_name, path = generated_file()
@@ -273,4 +282,3 @@ class UploadDownloadPage(BasePage):
         # file_name = (os.path.basename(file_name)) #mac os path
         # path_text = (path_text.split('\\')[-1]) # windows os path
         return os.path.basename(file_name), path_text.split('\\')[-1]
-

@@ -78,5 +78,6 @@ class LinksPageLocators:
 
 class UploadDownloadPageLocators:
     DOWNLOAD_FILE_BUTTON = (By.CSS_SELECTOR, "a[id='downloadButton']")
+    DOWNLOAD_FILE = str
     UPLOAD_FILE_BUTTON = (By.CSS_SELECTOR, "input[id='uploadFile']")
     UPLOADED_FILE_PATH = (By.CSS_SELECTOR, "p[id='uploadedFilePath']")

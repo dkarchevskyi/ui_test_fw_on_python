@@ -210,8 +210,9 @@ class TestUploadDownloadPage:
         real_path, on_page_path = upload_download_page.upload_file()
         assert real_path == on_page_path, "Name of uploaded file does not match"
 
-
     @pytest.mark.upload_download
     def test_download_file(self, driver):
         upload_download_page = UploadDownloadPage(driver, 'https://demoqa.com/upload-download')
         upload_download_page.open()
+        download_file_check = upload_download_page.download_file()
+        assert download_file_check is True, "Content of downloaded file is not same to source"
