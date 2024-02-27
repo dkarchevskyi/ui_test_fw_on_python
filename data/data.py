@@ -12,4 +12,6 @@ class Person:
     permanent_address: str = None
     salary: int = None
     department: str = None
+    mobile: str = None
+    subject: str = None
 
