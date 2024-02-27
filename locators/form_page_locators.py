@@ -3,7 +3,7 @@ from random import randint
 from selenium.webdriver.common.by import By
 
 
-class PageLocators:
+class FormPageLocators:
     # form fields
 
     FIRST_NAME = (By.CSS_SELECTOR, '#firstName')
@@ -17,3 +17,4 @@ class PageLocators:
     CURRENT_ADDRESS = (By.CSS_SELECTOR, 'textarea[id="currentAddress"]')
     PERMANENT_ADDRESS = (By.CSS_SELECTOR, 'textarea[id="permanentAddress"]')
     SUBMIT = (By.ID, "submit")
+    RESULT_TABLE = (By.XPATH, '//div[@class="table-responsive"]//td[2]')
