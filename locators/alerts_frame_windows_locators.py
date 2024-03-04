@@ -11,7 +11,7 @@ class BrowserWindowsLocators:
 
 
 class AlertsPageLocators:
-    #buttons
+    # buttons
     CLICK_ALERT_BUTTON = (By.CSS_SELECTOR, "button[id='alertButton']")
     ALERT_WITH_5_SECONDS_TIMER_BUTTON = (By.CSS_SELECTOR, "button[id='timerAlertButton']")
     ALERT_WITH_CONFIRM_BOX_BUTTON = (By.CSS_SELECTOR, "button[id='confirmButton']")
@@ -20,3 +20,9 @@ class AlertsPageLocators:
     # text
     CONFIRM_TEXT = (By.CSS_SELECTOR, "span[id='confirmResult']")
     PROMPT_TEXT = (By.CSS_SELECTOR, "span[id='promptResult']")
+
+
+class FramesPageLocators:
+    FRAME1 = (By.CSS_SELECTOR, "iframe[id='frame1']")
+    FRAME2 = (By.CSS_SELECTOR, "iframe[id='frame2']")
+    FRAME_TITLE = (By.CSS_SELECTOR, "h1[id='sampleHeading']")

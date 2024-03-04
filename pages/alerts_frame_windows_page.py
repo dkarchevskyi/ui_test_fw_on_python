@@ -5,7 +5,7 @@ import time
 import os
 
 from generator.generator import generated_person
-from locators.alerts_frame_windows_locators import BrowserWindowsLocators, AlertsPageLocators
+from locators.alerts_frame_windows_locators import BrowserWindowsLocators, AlertsPageLocators, FramesPageLocators
 from pages.base_page import BasePage
 
 
@@ -61,3 +61,26 @@ class AlertsPage(BasePage):
         alert_window.accept()
         result_text = self.element_is_present(self.locators.PROMPT_TEXT).text
         return input_text, result_text
+
+
+class FramesPage(BasePage):
+    locators = FramesPageLocators
+
+    def check_frame_1(self):
+        frame = self.element_is_present(self.locators.FRAME1)
+        width = frame.get_attribute('width')
+        height = frame.get_attribute('height')
+        self.driver.switch_to.frame(frame)
+        text = self.element_is_present(self.locators.FRAME_TITLE).text
+        self.driver.switch_to.default_content()
+        return [text, width, height]
+
+    def check_frame_2(self):
+        frame = self.element_is_present(self.locators.FRAME2)
+        width = frame.get_attribute('width')
+        height = frame.get_attribute('height')
+        self.driver.switch_to.frame(frame)
+        text = self.element_is_present(self.locators.FRAME_TITLE).text
+        self.driver.switch_to.default_content()
+        return [text, width, height]
+
