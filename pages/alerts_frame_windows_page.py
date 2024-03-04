@@ -5,7 +5,8 @@ import time
 import os
 
 from generator.generator import generated_person
-from locators.alerts_frame_windows_locators import BrowserWindowsLocators, AlertsPageLocators, FramesPageLocators
+from locators.alerts_frame_windows_locators import BrowserWindowsLocators, AlertsPageLocators, FramesPageLocators, \
+    ModalDialogsPageLocators, NestedFramesPageLocators
 from pages.base_page import BasePage
 
 
@@ -84,3 +85,33 @@ class FramesPage(BasePage):
         self.driver.switch_to.default_content()
         return [text, width, height]
 
+
+class NestedFramesPage(BasePage):
+    locators = NestedFramesPageLocators
+
+    def check_nested_frames(self):
+        parent_frame = self.element_is_present(self.locators.PARENT_FRAME)
+        self.driver.switch_to.frame(parent_frame)
+        parent_text = self.element_is_present(self.locators.PARENT_FRAME_TEXT).text
+        child_frame = self.element_is_present(self.locators.CHILD_FRAME)
+        self.driver.switch_to.frame(child_frame)
+        child_text = self.element_is_present(self.locators.CHILD_FRAME_TEXT).text
+        return parent_text, child_text
+
+
+class ModalDialogsPage(BasePage):
+    locators = ModalDialogsPageLocators
+
+    def check_small_modal_dialog(self):
+        self.element_is_visible(self.locators.SMALL_MODAL_OPEN_BUTTON).click()
+        title_small = self.element_is_visible(self.locators.SMALL_MODAL_TITLE).text
+        body_small = self.element_is_visible(self.locators.SMALL_MODAL_BODY).text
+        self.element_is_visible(self.locators.SMALL_MODAL_CLOSE_BUTTON).click()
+        return [title_small, len(body_small)]
+
+    def check_large_modal_dialog(self):
+        self.element_is_visible(self.locators.LARGE_MODAL_OPEN_BUTTON).click()
+        title_large = self.element_is_visible(self.locators.LARGE_MODAL_TITLE).text
+        body_large = self.element_is_visible(self.locators.LARGE_MODAL_BODY).text
+        self.element_is_visible(self.locators.LARGE_MODAL_CLOSE_BUTTON).click()
+        return [title_large, len(body_large)]

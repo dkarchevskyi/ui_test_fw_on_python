@@ -2,7 +2,8 @@ import pytest
 import time
 
 import generator.generator
-from pages.alerts_frame_windows_page import BrowserWindowsPage, AlertsPage, FramesPage
+from pages.alerts_frame_windows_page import BrowserWindowsPage, AlertsPage, FramesPage, ModalDialogsPage, \
+    NestedFramesPage
 
 
 class TestAlertFrameWindows:
@@ -70,7 +71,26 @@ class TestAlertFrameWindows:
             frames_page.open()
             result_frame1 = frames_page.check_frame_1()
             result_frame2 = frames_page.check_frame_2()
-            assert result_frame1 == ['This is a sample page', '500px', '350px'], ("Frame is absent or size/text does "
+            assert result_frame1 == ['This is a sample page', '500px', '350px'], ("Frame is absent or size/text do "
                                                                                   "not match")
-            assert result_frame2 == ['This is a sample page', '100px', '100px'], ("Frame is absent or size/text does "
+            assert result_frame2 == ['This is a sample page', '100px', '100px'], ("Frame is absent or size/text do "
                                                                                   "not match")
+
+    class TestNestedFrames:
+        @pytest.mark.nestedframes
+        def test_nested_frames(self, driver):
+            nested_frames_page = NestedFramesPage(driver, 'https://demoqa.com/nestedframes')
+            nested_frames_page.open()
+            parent_text, child_text = nested_frames_page.check_nested_frames()
+            assert parent_text == 'Parent frame', "Frame is absent or text does not match"
+            assert child_text == 'Child Iframe', "Frame is absent or text does not match"
+
+    class TestModalDialogs:
+        @pytest.mark.modaldialogs
+        def test_modal_dialogs(self, driver):
+            modal_dialogs_page = ModalDialogsPage(driver, 'https://demoqa.com/modal-dialogs')
+            modal_dialogs_page.open()
+            small_result = modal_dialogs_page.check_small_modal_dialog()
+            large_result = modal_dialogs_page.check_large_modal_dialog()
+            assert small_result == ['Small Modal', 47], "Dialog was not opened or title/body length do not match"
+            assert large_result == ['Large Modal', 574], "Dialog was not opened or title/body length do not match"
