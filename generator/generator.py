@@ -1,6 +1,6 @@
 import random
 
-from data.data import Person
+from data.data import Person, Color
 from faker import Faker
 
 faker_en = Faker('En')
@@ -37,3 +37,9 @@ def generated_download_path():
     # generated_path = rf'/Users/denys/PycharmProjects/ui_testing_fw_python/tests/test_file{random.randint(0,
     # 999)}.jpg'  # mac path
     return generated_path
+
+
+def generated_color():
+    yield Color(
+        color_name=['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Black', 'White', 'Voilet', 'Indigo', 'Magenta', 'Aqua']
+    )
