@@ -1,7 +1,6 @@
 import random
 import time
 import pytest
-
 import generator.generator
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
     UploadDownloadPage, DynamicPropertiesPage
