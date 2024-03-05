@@ -1,6 +1,6 @@
 import random
 
-from data.data import Person, Color
+from data.data import Person, Color, Date
 from faker import Faker
 
 faker_en = Faker('En')
@@ -42,4 +42,13 @@ def generated_download_path():
 def generated_color():
     yield Color(
         color_name=['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Black', 'White', 'Voilet', 'Indigo', 'Magenta', 'Aqua']
+    )
+
+
+def generated_date():
+    yield Date(
+        year=faker_en.year(),
+        month=faker_en.month_name(),
+        day=faker_en.day_of_month(),
+        time=random.choice([f"{hour:02d}:{minute:02d}" for hour in range(24) for minute in range(0, 60, 15)]),
     )

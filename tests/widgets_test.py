@@ -1,7 +1,7 @@
 import time
 import pytest
 
-from pages.widgets_page import AccordianPage, AutocompletePage
+from pages.widgets_page import AccordianPage, AutocompletePage, DatePickerPage
 
 
 class TestWidgets:
@@ -52,3 +52,11 @@ class TestWidgets:
             input_color = autocomplete_page.fill_input_single()
             result_color = autocomplete_page.check_single_input()
             assert input_color == result_color, "Single color was not entered or do not match"
+
+    class TestDatePickerPage:
+        @pytest.mark.datepicker
+        def test_date(self, driver):
+            datepicker_page = DatePickerPage(driver, 'https://demoqa.com/date-picker')
+            datepicker_page.open()
+            date = datepicker_page.input_date_value()
+            print(date)

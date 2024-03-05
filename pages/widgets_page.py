@@ -3,11 +3,12 @@ import pytest
 import time
 
 from selenium.common import TimeoutException
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from generator.generator import generated_color
-from locators.widgets_locators import AccordianPageLocators, AutocompletePageLocators
+from generator.generator import generated_color, generated_date
+from locators.widgets_locators import AccordianPageLocators, AutocompletePageLocators, DatePickerPageLocators
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 
@@ -77,4 +78,23 @@ class AutocompletePage(BasePage):
     def check_single_input(self):
         color = self.element_is_visible(self.locators.SINGLE_INPUT_FIELD)
         return [color.text]
+
+
+class DatePickerPage(BasePage):
+    locators = DatePickerPageLocators
+
+    def input_date_value(self):
+        date = next(generated_date())
+        input_date = self.element_is_visible(self.locators.DATE_INPUT)
+        date_value_before = input_date.get_attribute('value')
+        input_date.click()
+        self.set_date_by_text(self.locators.DATE_SELECT_MONTH, date.month)
+        self.set_date_by_text(self.locators.DATE_SELECT_YEAR, date.year)
+        self.set_day_item_from_list(self.locators.DATE_SELECT_DAY_LIST, date.day)
+        value_date_after = input_date.get_attribute('value')
+        return date_value_before, value_date_after
+
+
+
+
 

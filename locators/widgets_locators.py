@@ -20,3 +20,12 @@ class AutocompletePageLocators:
     # single
     SINGLE_INPUT_FIELD = (By.CSS_SELECTOR, "div[class='auto-complete__single-value css-1uccc91-singleValue']")
     SINGLE_VALUE = (By.CSS_SELECTOR, "input[id='autoCompleteSingleInput']")
+
+
+class DatePickerPageLocators:
+    # date only
+    DATE_INPUT = (By.CSS_SELECTOR, "input[id='datePickerMonthYearInput']")
+    DATE_SELECT_DAY_LIST = (By.CSS_SELECTOR, "div[class^='react-datepicker__day react-datepicker__day']")
+    DATE_SELECT_MONTH = (By.CSS_SELECTOR, "select[class='react-datepicker__month-select']")
+    DATE_SELECT_YEAR = (By.CSS_SELECTOR, "select[class='react-datepicker__year-select']")
+    # date and time
