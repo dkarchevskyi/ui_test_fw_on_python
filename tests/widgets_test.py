@@ -55,8 +55,15 @@ class TestWidgets:
 
     class TestDatePickerPage:
         @pytest.mark.datepicker
-        def test_date(self, driver):
+        def test_change_date(self, driver):
             datepicker_page = DatePickerPage(driver, 'https://demoqa.com/date-picker')
             datepicker_page.open()
-            date = datepicker_page.input_date_value()
-            print(date)
+            date_value_before, date_value_after = datepicker_page.input_date_value()
+            assert date_value_before != date_value_after, "Date information was not changed"
+
+        @pytest.mark.datepicker
+        def test_change_date_with_time(self, driver):
+            datepicker_page = DatePickerPage(driver, 'https://demoqa.com/date-picker')
+            datepicker_page.open()
+            date_value_before, date_value_after = datepicker_page.input_date_and_time_value()
+            assert date_value_before != date_value_after, "Date or time information was not changed"

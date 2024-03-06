@@ -57,7 +57,7 @@ class BasePage:
         select = Select(self.element_is_present(element))
         select.select_by_visible_text(value)
 
-    def set_day_item_from_list(self, elements, value):
+    def set_date_item_from_list(self, elements, value):
         item_list = self.elements_are_present(elements)
         for item in item_list:
             if item.text == value:

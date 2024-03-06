@@ -48,6 +48,7 @@ def generated_color():
 def generated_date():
     yield Date(
         year=faker_en.year(),
+        years=str(random.randint(2019, 2029)),
         month=faker_en.month_name(),
         day=faker_en.day_of_month(),
         time=random.choice([f"{hour:02d}:{minute:02d}" for hour in range(24) for minute in range(0, 60, 15)]),

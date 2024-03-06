@@ -3,9 +3,6 @@ import pytest
 import time
 
 from selenium.common import TimeoutException
-from selenium.webdriver.support.select import Select
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_locators import AccordianPageLocators, AutocompletePageLocators, DatePickerPageLocators
@@ -90,9 +87,24 @@ class DatePickerPage(BasePage):
         input_date.click()
         self.set_date_by_text(self.locators.DATE_SELECT_MONTH, date.month)
         self.set_date_by_text(self.locators.DATE_SELECT_YEAR, date.year)
-        self.set_day_item_from_list(self.locators.DATE_SELECT_DAY_LIST, date.day)
-        value_date_after = input_date.get_attribute('value')
-        return date_value_before, value_date_after
+        self.set_date_item_from_list(self.locators.DATE_SELECT_DAY_LIST, date.day)
+        date_value_after = input_date.get_attribute('value')
+        return date_value_before, date_value_after
+
+    def input_date_and_time_value(self):
+        date = next(generated_date())
+        input_date = self.element_is_visible(self.locators.DATE_TIME_INPUT)
+        date_value_before = input_date.get_attribute('value')
+        input_date.click()
+        self.element_is_visible(self.locators.DATE_TIME_SELECT_MONTH).click()
+        self.set_date_item_from_list(self.locators.DATE_TIME_SELECT_MONTH_LIST, date.month)
+        self.element_is_present(self.locators.DATE_TIME_SELECT_YEAR).click()
+        self.set_date_item_from_list(self.locators.DATE_TIME_SELECT_YEAR_LIST, '2019') #date.years) #
+        self.set_date_item_from_list(self.locators.DATE_SELECT_DAY_LIST, date.day)
+        self.set_date_item_from_list(self.locators.DATE_TIME_SELECT_TIME_LIST, date.time)
+        date_value_after = input_date.get_attribute('value')
+        return date_value_before, date_value_after
+
 
 
 
