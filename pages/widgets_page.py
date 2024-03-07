@@ -5,7 +5,8 @@ import time
 from selenium.common import TimeoutException
 
 from generator.generator import generated_color, generated_date
-from locators.widgets_locators import AccordianPageLocators, AutocompletePageLocators, DatePickerPageLocators
+from locators.widgets_locators import AccordianPageLocators, AutocompletePageLocators, DatePickerPageLocators, \
+    SliderPageLocators, ProgressbarPageLocators
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 
@@ -99,14 +100,33 @@ class DatePickerPage(BasePage):
         self.element_is_visible(self.locators.DATE_TIME_SELECT_MONTH).click()
         self.set_date_item_from_list(self.locators.DATE_TIME_SELECT_MONTH_LIST, date.month)
         self.element_is_present(self.locators.DATE_TIME_SELECT_YEAR).click()
-        self.set_date_item_from_list(self.locators.DATE_TIME_SELECT_YEAR_LIST, '2019') #date.years) #
+        self.set_date_item_from_list(self.locators.DATE_TIME_SELECT_YEAR_LIST, '2019')  # date.years) #
         self.set_date_item_from_list(self.locators.DATE_SELECT_DAY_LIST, date.day)
         self.set_date_item_from_list(self.locators.DATE_TIME_SELECT_TIME_LIST, date.time)
         date_value_after = input_date.get_attribute('value')
         return date_value_before, date_value_after
 
 
+class SliderPage(BasePage):
+    locators = SliderPageLocators
+
+    def change_slider_value(self):
+        value_before = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute('value')
+        time.sleep(1)
+        slider_input = self.element_is_visible(self.locators.SLIDER_INPUT)
+        self.action_drug_and_drop_by_offset(slider_input, random.randint(0, 100), 0)
+        value_after = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute('value')
+        return value_before, value_after
 
 
+class ProgressbarPage(BasePage):
+    locators = ProgressbarPageLocators
 
+    def change_progressbar_value(self):
+        value_before = self.element_is_present(self.locators.PROGRESSBAR_VALUE).text
+        self.element_is_visible(self.locators.PROGRESSBAR_BUTTON).click()
+        time.sleep(random.randint(2, 10))
+        self.element_is_visible(self.locators.PROGRESSBAR_BUTTON).click()
+        value_after = self.element_is_present(self.locators.PROGRESSBAR_VALUE).text
+        return value_before, value_after
 

@@ -1,10 +1,9 @@
 import pytest
 
-from pages.widgets_page import AccordianPage, AutocompletePage, DatePickerPage
+from pages.widgets_page import AccordianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressbarPage
 
 
 class TestWidgets:
-
     class TestAccordianPage:
 
         @pytest.mark.accordian
@@ -69,3 +68,19 @@ class TestWidgets:
             datepicker_page.open()
             date_value_before, date_value_after = datepicker_page.input_date_and_time_value()
             assert date_value_before != date_value_after, "Date or time information was not changed"
+
+    class TestSliderPage:
+        @pytest.mark.slider
+        def test_slider(self, driver):
+            slider_page = SliderPage(driver, 'https://demoqa.com/slider')
+            slider_page.open()
+            value_before, value_after = slider_page.change_slider_value()
+            assert value_before != value_after, "Slider value was not changed"
+
+    class TestProgressbarPage:
+        @pytest.mark.progressbar
+        def test_progressbar(self, driver):
+            progressbar_page = ProgressbarPage(driver, 'https://demoqa.com/progress-bar')
+            progressbar_page.open()
+            value_before, value_after = progressbar_page.change_progressbar_value()
+            assert value_before != value_after, "Progressbar value was not changed"
