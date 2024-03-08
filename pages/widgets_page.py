@@ -6,7 +6,7 @@ from selenium.common import TimeoutException
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_locators import AccordianPageLocators, AutocompletePageLocators, DatePickerPageLocators, \
-    SliderPageLocators, ProgressbarPageLocators
+    SliderPageLocators, ProgressbarPageLocators, TabsPageLocators
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 
@@ -130,3 +130,25 @@ class ProgressbarPage(BasePage):
         value_after = self.element_is_present(self.locators.PROGRESSBAR_VALUE).text
         return value_before, value_after
 
+
+class TabsPage(BasePage):
+    locators = TabsPageLocators
+
+    def check_tabs(self, tabs_num):
+        tabs = {'what':
+                    {'title': self.locators.TABS_WHAT,
+                     'body': self.locators.TABS_WHAT_CONTENT},
+                'origin':
+                    {'title': self.locators.TABS_ORIGIN,
+                     'body': self.locators.TABS_ORIGIN_CONTENT},
+                'use':
+                    {'title': self.locators.TABS_USE,
+                     'body': self.locators.TABS_USE_CONTENT},
+                'more':
+                    {'title': self.locators.TABS_MORE,
+                     'body': self.locators.TABS_MORE_CONTENT},
+                }
+        tab_title = self.element_is_visible(tabs[tabs_num]['title'])
+        tab_title.click()
+        tab_body = self.element_is_visible(tabs[tabs_num]['body']).text
+        return tab_title.text, tab_body

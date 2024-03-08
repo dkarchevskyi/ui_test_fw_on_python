@@ -1,6 +1,6 @@
 import pytest
 
-from pages.widgets_page import AccordianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressbarPage
+from pages.widgets_page import AccordianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressbarPage, TabsPage
 
 
 class TestWidgets:
@@ -84,3 +84,18 @@ class TestWidgets:
             progressbar_page.open()
             value_before, value_after = progressbar_page.change_progressbar_value()
             assert value_before != value_after, "Progressbar value was not changed"
+
+    class TestTabsPage:
+        @pytest.mark.tabs
+        def test_tabs(self, driver):
+            tabs_page = TabsPage(driver, 'https://demoqa.com/tabs')
+            tabs_page.open()
+            what_title, what_body = tabs_page.check_tabs('what')
+            origin_title, origin_body = tabs_page.check_tabs('origin')
+            use_title, use_body = tabs_page.check_tabs('use')
+            # more_title, more_body = tabs_page.check_tabs('more')
+
+            assert what_title == 'What' and len(what_body) != 0, "Wrong tab clicked or tab body is empty"
+            assert origin_title == 'Origin' and len(origin_body) != 0, "Wrong tab clicked or tab body is empty"
+            assert use_title == 'Use' and len(use_body) != 0, "Wrong tab clicked or tab body is empty"
+            # bug on page # assert more_title == 'More' and len(more_body) != 0, "Wrong tab clicked or tab body is empty"
