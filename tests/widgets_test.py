@@ -1,6 +1,8 @@
+import time
+
 import pytest
 
-from pages.widgets_page import AccordianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressbarPage, TabsPage
+from pages.widgets_page import AccordianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressbarPage, TabsPage, ToolTipsPage
 
 
 class TestWidgets:
@@ -98,4 +100,20 @@ class TestWidgets:
             assert what_title == 'What' and len(what_body) != 0, "Wrong tab clicked or tab body is empty"
             assert origin_title == 'Origin' and len(origin_body) != 0, "Wrong tab clicked or tab body is empty"
             assert use_title == 'Use' and len(use_body) != 0, "Wrong tab clicked or tab body is empty"
-            # bug on page # assert more_title == 'More' and len(more_body) != 0, "Wrong tab clicked or tab body is empty"
+            # bug on page  assert more_title == 'More' and len(more_body) != 0, "Wrong tab clicked or tab body is empty"
+
+    class TestToolTipsPage:
+        @pytest.mark.tooltips
+        def test_tooltips(self, driver):
+            tooltips_page = ToolTipsPage(driver, 'https://demoqa.com/tool-tips')
+            tooltips_page.open()
+            time.sleep(1)
+            button_text, field_text, link_text, section_text = tooltips_page.check_tooltips()
+            # print(button_text)
+            # print(field_text)
+            # print(link_text)
+            # print(section_text)
+            assert button_text == 'You hovered over the Button', "Hover is missing or incorrect hover content"
+            assert field_text == 'You hovered over the text field', "Hover is missing or incorrect hover content"
+            assert link_text == 'You hovered over the Contrary', "Hover is missing or incorrect hover content"
+            assert section_text == 'You hovered over the 1.10.32', "Hover is missing or incorrect hover content"

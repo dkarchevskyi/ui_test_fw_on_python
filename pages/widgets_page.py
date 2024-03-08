@@ -6,7 +6,7 @@ from selenium.common import TimeoutException
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_locators import AccordianPageLocators, AutocompletePageLocators, DatePickerPageLocators, \
-    SliderPageLocators, ProgressbarPageLocators, TabsPageLocators
+    SliderPageLocators, ProgressbarPageLocators, TabsPageLocators, ToolTipsPageLocators
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 
@@ -152,3 +152,24 @@ class TabsPage(BasePage):
         tab_title.click()
         tab_body = self.element_is_visible(tabs[tabs_num]['body']).text
         return tab_title.text, tab_body
+
+
+class ToolTipsPage(BasePage):
+    locators = ToolTipsPageLocators
+
+    def get_text_from_tooltips(self, element_to_hover, tooltip_element):
+        element = self.element_is_present(element_to_hover)
+        self.action_move_to_element(element)
+        time.sleep(0.2)
+        self.element_is_visible(tooltip_element)
+        time.sleep(0.2)
+        tooltip_text = self.element_is_visible(self.locators.TOOLTIPS_TEXT)
+        text = tooltip_text.text
+        return text
+
+    def check_tooltips(self):
+        tooltip_text_button = self.get_text_from_tooltips(self.locators.BUTTON, self.locators.BUTTON_TOOLTIP)
+        tooltip_input_field = self.get_text_from_tooltips(self.locators.INPUT, self.locators.INPUT_TOOLTIP)
+        tooltip_text_link = self.get_text_from_tooltips(self.locators.TEXT_LINK, self.locators.TEXT_LINK_TOOLTIP)
+        tooltip_section_link = self.get_text_from_tooltips(self.locators.SECTION_LINK, self.locators.SECTION_LINK_TOOLTIP)
+        return tooltip_text_button, tooltip_input_field, tooltip_text_link, tooltip_section_link
