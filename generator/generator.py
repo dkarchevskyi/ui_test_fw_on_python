@@ -1,6 +1,6 @@
 import random
 
-from data.data import Person
+from data.data import Person, Color, Date
 from faker import Faker
 
 faker_en = Faker('En')
@@ -37,3 +37,19 @@ def generated_download_path():
     # generated_path = rf'/Users/denys/PycharmProjects/ui_testing_fw_python/tests/test_file{random.randint(0,
     # 999)}.jpg'  # mac path
     return generated_path
+
+
+def generated_color():
+    yield Color(
+        color_name=['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Black', 'White', 'Voilet', 'Indigo', 'Magenta', 'Aqua']
+    )
+
+
+def generated_date():
+    yield Date(
+        year=faker_en.year(),
+        years=str(random.randint(2019, 2029)),
+        month=faker_en.month_name(),
+        day=faker_en.day_of_month(),
+        time=random.choice([f"{hour:02d}:{minute:02d}" for hour in range(24) for minute in range(0, 60, 15)]),
+    )

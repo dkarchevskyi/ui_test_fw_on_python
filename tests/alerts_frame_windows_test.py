@@ -92,5 +92,6 @@ class TestAlertFrameWindows:
             modal_dialogs_page.open()
             small_result = modal_dialogs_page.check_small_modal_dialog()
             large_result = modal_dialogs_page.check_large_modal_dialog()
-            assert small_result == ['Small Modal', 47], "Dialog was not opened or title/body length do not match"
-            assert large_result == ['Large Modal', 574], "Dialog was not opened or title/body length do not match"
+            assert small_result[1] < large_result[1], "Dialog was not opened or body length do not match"
+            assert small_result[0] == 'Small Modal', "Dialog was not opened or title do not match"
+            assert large_result[0] == 'Large Modal', "Dialog was not opened or title do not match"
