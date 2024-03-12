@@ -2,7 +2,8 @@ import time
 
 import pytest
 
-from pages.widgets_page import AccordianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressbarPage, TabsPage, ToolTipsPage
+from pages.widgets_page import AccordianPage, AutocompletePage, DatePickerPage, SliderPage, ProgressbarPage, TabsPage, \
+    ToolTipsPage, MenuPage
 
 
 class TestWidgets:
@@ -109,11 +110,15 @@ class TestWidgets:
             tooltips_page.open()
             time.sleep(1)
             button_text, field_text, link_text, section_text = tooltips_page.check_tooltips()
-            # print(button_text)
-            # print(field_text)
-            # print(link_text)
-            # print(section_text)
             assert button_text == 'You hovered over the Button', "Hover is missing or incorrect hover content"
             assert field_text == 'You hovered over the text field', "Hover is missing or incorrect hover content"
             assert link_text == 'You hovered over the Contrary', "Hover is missing or incorrect hover content"
             assert section_text == 'You hovered over the 1.10.32', "Hover is missing or incorrect hover content"
+
+    class TestMenuPage:
+        @pytest.mark.menu
+        def test_menu(self, driver):
+            menu_page = MenuPage(driver, 'https://demoqa.com/menu')
+            menu_page.open()
+            data = menu_page.check_menu()
+            assert data == ['Main Item 1', 'Main Item 2', 'Sub Item', 'Sub Item', 'SUB SUB LIST »', 'Sub Sub Item 1', 'Sub Sub Item 2', 'Main Item 3'], 'Menu item was not opened or text is wrong'

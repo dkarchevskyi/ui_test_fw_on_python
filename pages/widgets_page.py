@@ -6,7 +6,7 @@ from selenium.common import TimeoutException
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_locators import AccordianPageLocators, AutocompletePageLocators, DatePickerPageLocators, \
-    SliderPageLocators, ProgressbarPageLocators, TabsPageLocators, ToolTipsPageLocators
+    SliderPageLocators, ProgressbarPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 
@@ -171,5 +171,20 @@ class ToolTipsPage(BasePage):
         tooltip_text_button = self.get_text_from_tooltips(self.locators.BUTTON, self.locators.BUTTON_TOOLTIP)
         tooltip_input_field = self.get_text_from_tooltips(self.locators.INPUT, self.locators.INPUT_TOOLTIP)
         tooltip_text_link = self.get_text_from_tooltips(self.locators.TEXT_LINK, self.locators.TEXT_LINK_TOOLTIP)
-        tooltip_section_link = self.get_text_from_tooltips(self.locators.SECTION_LINK, self.locators.SECTION_LINK_TOOLTIP)
+        tooltip_section_link = self.get_text_from_tooltips(self.locators.SECTION_LINK,
+                                                           self.locators.SECTION_LINK_TOOLTIP)
         return tooltip_text_button, tooltip_input_field, tooltip_text_link, tooltip_section_link
+
+
+class MenuPage(BasePage):
+    locators = MenuPageLocators
+
+    def check_menu(self):
+        menu_item_list = self.elements_are_present(self.locators.MENU_ITEM_LIST)
+        data = []
+        for item in menu_item_list:
+            self.action_move_to_element(item)
+            time.sleep(0.1)
+            # self.element_is_visible(item)
+            data.append(item.text)
+        return data

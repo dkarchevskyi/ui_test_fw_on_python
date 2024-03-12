@@ -68,3 +68,7 @@ class ToolTipsPageLocators:
     SECTION_LINK = (By.XPATH, "//*[.='1.10.32']")
     SECTION_LINK_TOOLTIP = (By.CSS_SELECTOR, "a[aria-describedby='sectionToolTip']")
     TOOLTIPS_TEXT = (By.CSS_SELECTOR, "div[class='tooltip-inner']")
+
+
+class MenuPageLocators:
+    MENU_ITEM_LIST = (By.CSS_SELECTOR, "ul[id='nav'] li a")
