@@ -4,7 +4,7 @@ import time
 
 from selenium.common import TimeoutException
 
-from locators.interactions_locators import SortablePageLocators, SelectablePageLocators
+from locators.interactions_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 
@@ -56,3 +56,9 @@ class SelectablePage(BasePage):
         self.click_selectable_item(self.locators.GRID_ITEM)
         active_element = self.element_is_visible(self.locators.GRID_ITEM_ACTIVE)
         return active_element.text
+
+
+class ResizablePage(BasePage):
+
+    locators = ResizablePageLocators
+    pass

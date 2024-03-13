@@ -2,7 +2,7 @@ import pytest
 import time
 
 import generator.generator
-from pages.interactions_page import SortablePage, SelectablePage
+from pages.interactions_page import SortablePage, SelectablePage, ResizablePage
 
 
 class TestSortablePage:
@@ -27,3 +27,11 @@ class TestSelectablePage:
         grid_selectable = selectable_page.select_grid_item()
         assert len(list_selectable) > 0, "List element was not selected"
         assert len(grid_selectable) > 0, "Grid element was not selected"
+
+
+class TestResizablePage:
+
+    @pytest.mark.resizable
+    def test_resizable(self, driver):
+        resizable_page = ResizablePage(driver, 'https://demoqa.com/resizable')
+        resizable_page.open()

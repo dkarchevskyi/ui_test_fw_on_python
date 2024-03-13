@@ -16,3 +16,7 @@ class SelectablePageLocators:
     GRID_TAB = (By.CSS_SELECTOR, 'a[id="demo-tab-grid"]')
     GRID_ITEM = (By.CSS_SELECTOR, 'li[class="list-group-item list-group-item-action"]')
     GRID_ITEM_ACTIVE = (By.CSS_SELECTOR, 'li[class="list-group-item active list-group-item-action"]')
+
+
+class ResizablePageLocators:
+    pass
