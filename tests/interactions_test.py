@@ -35,3 +35,7 @@ class TestResizablePage:
     def test_resizable(self, driver):
         resizable_page = ResizablePage(driver, 'https://demoqa.com/resizable')
         resizable_page.open()
+        max_box, min_box = resizable_page.change_resizable_box()
+        max_area, min_area = resizable_page.change_resizable()
+        print(max_box, min_box)
+        print(max_area, min_area)
