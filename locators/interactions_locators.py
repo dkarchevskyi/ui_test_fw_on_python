@@ -26,4 +26,27 @@ class ResizablePageLocators:
 
 
 class DroppablePageLocators:
-    pass
+    # simple
+    SIMPLE_TAB = (By.CSS_SELECTOR, 'a[id="droppableExample-tab-simple"]')
+    DRAG_ME_SIMPLE = (By.CSS_SELECTOR, 'div[id="draggable"]')
+    DROP_HERE_SIMPLE = (By.CSS_SELECTOR, 'div[id="simpleDropContainer"] div[id="droppable"]')
+
+    # accept
+    ACCEPT_TAB = (By.CSS_SELECTOR, 'a[id="droppableExample-tab-accept"]')
+    DRAG_ME_ACCEPTABLE = (By.CSS_SELECTOR, 'div[id="acceptable"]')
+    DRAG_ME_NOT_ACCEPTABLE = (By.CSS_SELECTOR, 'div[id="notAcceptable"]')
+    DROP_HERE_ACCEPTABLE = (By.CSS_SELECTOR, 'div[id="acceptDropContainer"] div[id="droppable"]')
+
+    # prevent propagation
+    PREVENT_TAB = (By.CSS_SELECTOR, 'a[id="droppableExample-tab-preventPropogation"]')
+    DRAG_ME_PREVENT = (By.CSS_SELECTOR, 'div[id="dragBox"]')
+    NOT_GREEDY_DROP_TEXT_BOX = (By.CSS_SELECTOR, 'div[id="notGreedyDropBox"] p:nth-child(1)')
+    NOT_GREEDY_INNER_BOX = (By.CSS_SELECTOR, 'div[id="notGreedyInnerDropBox"]')
+    GREEDY_DROP_TEXT_BOX = (By.CSS_SELECTOR, 'div[id="greedyDropBox"] p:nth-child(1)')
+    GREEDY_INNER_BOX = (By.CSS_SELECTOR, 'div[id="greedyDropBoxInner"]')
+
+    # revert draggable
+    REVERT_TAB = (By.CSS_SELECTOR, 'a[id="droppableExample-tab-revertable"]')
+    WILL_REVERT = (By.CSS_SELECTOR, 'div[id="revertable"]')
+    WILL_NOT_REVERT = (By.CSS_SELECTOR, 'div[id="notRevertable"]')
+    DROP_HERE_REVERT = (By.CSS_SELECTOR, 'div[id="revertableDropContainer"] div[id="droppable"]')

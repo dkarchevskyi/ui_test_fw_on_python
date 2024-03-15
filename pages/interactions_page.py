@@ -94,4 +94,32 @@ class ResizablePage(BasePage):
 
 class DroppablePage(BasePage):
     locators = DroppablePageLocators
-    pass
+
+    def drop_simple(self):
+        self.remove_footer()
+        self.element_is_visible(self.locators.SIMPLE_TAB).click()
+        drag_div = self.element_is_visible(self.locators.DRAG_ME_SIMPLE)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_SIMPLE)
+        self.action_drug_and_drop_to_element(drag_div, drop_div)
+        time.sleep(0.5)
+        return drop_div.text
+
+    def drop_acceptable(self):
+        self.remove_footer()
+        self.element_is_visible(self.locators.ACCEPT_TAB).click()
+        drag_div = self.element_is_visible(self.locators.DRAG_ME_ACCEPTABLE)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_ACCEPTABLE)
+        self.action_drug_and_drop_to_element(drag_div, drop_div)
+        time.sleep(0.5)
+        return drop_div.text
+
+    def drop_not_acceptable(self):
+        self.remove_footer()
+        self.element_is_visible(self.locators.ACCEPT_TAB).click()
+        drag_div = self.element_is_visible(self.locators.DRAG_ME_NOT_ACCEPTABLE)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_ACCEPTABLE)
+        self.action_drug_and_drop_to_element(drag_div, drop_div)
+        time.sleep(0.5)
+        return drop_div.text
+
+

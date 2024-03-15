@@ -50,6 +50,32 @@ class TestResizablePage:
 class TestDroppablePage:
 
     @pytest.mark.droppable
-    def test_droppable(self, driver):
+    def test_simple_droppable(self, driver):
+        droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+        droppable_page.open()
+        drop_text = droppable_page.drop_simple()
+        assert drop_text == 'Dropped!', "Simple Div was not dropped to Drop div"
+
+    @pytest.mark.droppable
+    def test_accept_droppable(self, driver):
+        droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+        droppable_page.open()
+        drop_text = droppable_page.drop_acceptable()
+        assert drop_text == 'Dropped!', "Droppable Div was not accepted"
+
+    @pytest.mark.droppable
+    def test_not_accept_droppable(self, driver):
+        droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+        droppable_page.open()
+        drop_text = droppable_page.drop_not_acceptable()
+        assert drop_text == 'Drop here', "Droppable Div was accepted"
+
+    @pytest.mark.droppable
+    def test_prevent_droppable(self, driver):
+        droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+        droppable_page.open()
+
+    @pytest.mark.droppable
+    def test_revert_droppable(self, driver):
         droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
         droppable_page.open()
