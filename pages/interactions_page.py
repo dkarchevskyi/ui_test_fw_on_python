@@ -4,7 +4,8 @@ import time
 
 from selenium.common import TimeoutException
 
-from locators.interactions_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators
+from locators.interactions_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators, \
+    DroppablePageLocators
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 
@@ -61,9 +62,9 @@ class SelectablePage(BasePage):
 class ResizablePage(BasePage):
     locators = ResizablePageLocators
 
-    def get_px_from_width_neight(self, value_of_size):
-        width = value_of_size
-        height = value_of_size
+    def get_px_from_width_height(self, value_of_size):
+        width = value_of_size.split(';')[0].split(':')[1].replace(' ', ' ')
+        height = value_of_size.split(';')[1].split(':')[1].replace(' ', ' ')
         return width, height
 
     def get_max_min_size(self, element):
@@ -73,17 +74,24 @@ class ResizablePage(BasePage):
 
     def change_resizable_box(self):
         self.remove_footer()
-        self.action_drug_and_drop_by_offset(self.element_is_present(self.locators.RESIZABLE_BOX_HANDLE),500, 300)
-        max_size = self.get_px_from_width_neight(self.get_max_min_size(self.locators.RESIZABLE_BOX))
-        self.action_drug_and_drop_by_offset(self.element_is_present(self.locators.RESIZABLE_BOX_HANDLE), 150, 150)
-        min_size = self.get_px_from_width_neight(self.get_max_min_size(self.locators.RESIZABLE_BOX))
+        self.action_drug_and_drop_by_offset(self.element_is_present(self.locators.RESIZABLE_BOX_HANDLE), 400, 400)
+        max_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZABLE_BOX))
+        self.action_drug_and_drop_by_offset(self.element_is_present(self.locators.RESIZABLE_BOX_HANDLE), -500, -300)
+        min_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZABLE_BOX))
         return max_size, min_size
 
     def change_resizable(self):
         self.remove_footer()
-        self.action_drug_and_drop_by_offset(self.element_is_present(self.locators.RESIZABLE_HANDLE), random.randint(1, 300), random.randint(1, 300))
-        max_size = self.get_px_from_width_neight(self.get_max_min_size(self.locators.RESIZABLE))
-        self.action_drug_and_drop_by_offset(self.element_is_present(self.locators.RESIZABLE_HANDLE), random.randint(1, 300), random.randint(1, 300))
-        min_size = self.get_px_from_width_neight(self.get_max_min_size(self.locators.RESIZABLE))
+        self.go_to_element(self.element_is_present(self.locators.RESIZABLE))
+        self.action_drug_and_drop_by_offset(self.element_is_present(self.locators.RESIZABLE_HANDLE),
+                                            random.randint(20, 300), random.randint(20, 300))
+        max_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZABLE))
+        self.action_drug_and_drop_by_offset(self.element_is_present(self.locators.RESIZABLE_HANDLE),
+                                            random.randint(20, 300), random.randint(20, 300))
+        min_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZABLE))
         return max_size, min_size
 
+
+class DroppablePage(BasePage):
+    locators = DroppablePageLocators
+    pass

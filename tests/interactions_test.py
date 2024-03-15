@@ -2,7 +2,7 @@ import pytest
 import time
 
 import generator.generator
-from pages.interactions_page import SortablePage, SelectablePage, ResizablePage
+from pages.interactions_page import SortablePage, SelectablePage, ResizablePage, DroppablePage
 
 
 class TestSortablePage:
@@ -32,10 +32,24 @@ class TestSelectablePage:
 class TestResizablePage:
 
     @pytest.mark.resizable
-    def test_resizable(self, driver):
+    def test_resizable_box(self, driver):
         resizable_page = ResizablePage(driver, 'https://demoqa.com/resizable')
         resizable_page.open()
         max_box, min_box = resizable_page.change_resizable_box()
-        max_area, min_area = resizable_page.change_resizable()
-        print(max_box, min_box)
-        print(max_area, min_area)
+        assert max_box == (' 500px', ' 300px'), "Max box size is not equal to 500px * 300px"
+        assert min_box == (' 150px', ' 150px'), "Min box size is not equal to 150px * 150px"
+
+    @pytest.mark.resizable
+    def test_resizable(self, driver):
+        resizable_page = ResizablePage(driver, 'https://demoqa.com/resizable')
+        resizable_page.open()
+        start_area, end_area = resizable_page.change_resizable()
+        assert start_area != end_area, "Resizable area was not changed"
+
+
+class TestDroppablePage:
+
+    @pytest.mark.droppable
+    def test_droppable(self, driver):
+        droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+        droppable_page.open()
