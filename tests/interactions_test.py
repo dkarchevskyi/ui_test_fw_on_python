@@ -71,11 +71,29 @@ class TestDroppablePage:
         assert drop_text == 'Drop here', "Droppable Div was accepted"
 
     @pytest.mark.droppable
-    def test_prevent_droppable(self, driver):
+    def test_prevent_not_greedy(self, driver):
         droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
         droppable_page.open()
+        drop_not_greedy, drop_not_greedy_inner = droppable_page.drop_prevent_not_greedy()
+        assert drop_not_greedy == drop_not_greedy_inner, "Prevent Div was not dropped to not greedy div"
 
     @pytest.mark.droppable
-    def test_revert_droppable(self, driver):
+    def test_prevent_greedy(self, driver):
         droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
         droppable_page.open()
+        drop_greedy, drop_greedy_inner = droppable_page.drop_prevent_greedy()
+        assert drop_greedy == 'Outer droppable' and drop_greedy_inner == 'Dropped!', "Prevent Div was not dropped to greedy div"
+
+    @pytest.mark.droppable
+    def test_will_revert(self, driver):
+        droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+        droppable_page.open()
+        position_drop, position_revert, text = droppable_page.drop_will_revert()
+        assert position_drop != position_revert and text == 'Dropped!', "Revert div was not reverted"
+
+    @pytest.mark.droppable
+    def test_will_not_revert(self, driver):
+        droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+        droppable_page.open()
+        position_drop, position_revert, text = droppable_page.drop_will_not_revert()
+        assert position_drop == position_revert and text == 'Dropped!', "Not Revert div was reverted"

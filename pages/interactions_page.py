@@ -122,4 +122,49 @@ class DroppablePage(BasePage):
         time.sleep(0.5)
         return drop_div.text
 
+    def drop_prevent_not_greedy(self):
+        self.remove_footer()
+        self.element_is_visible(self.locators.PREVENT_TAB).click()
+        drag_div = self.element_is_visible(self.locators.DRAG_ME_PREVENT)
+        not_greedy_inner_box = self.element_is_visible(self.locators.NOT_GREEDY_INNER_BOX)
+        self.action_drug_and_drop_to_element(drag_div, not_greedy_inner_box)
+        time.sleep(0.5)
+        text_not_greedy_box = self.element_is_visible(self.locators.NOT_GREEDY_DROP_TEXT_BOX).text
+        text_not_greedy_inner_box = not_greedy_inner_box.text
+        return text_not_greedy_box, text_not_greedy_inner_box
+
+    def drop_prevent_greedy(self):
+        self.remove_footer()
+        self.element_is_visible(self.locators.PREVENT_TAB).click()
+        drag_div = self.element_is_visible(self.locators.DRAG_ME_PREVENT)
+        greedy_inner_box = self.element_is_visible(self.locators.GREEDY_INNER_BOX)
+        self.action_drug_and_drop_to_element(drag_div, greedy_inner_box)
+        time.sleep(0.5)
+        text_greedy_box = self.element_is_visible(self.locators.GREEDY_DROP_TEXT_BOX).text
+        text_greedy_inner_box = greedy_inner_box.text
+        return text_greedy_box, text_greedy_inner_box
+
+    def drop_will_revert(self):
+        self.remove_footer()
+        self.element_is_visible(self.locators.REVERT_TAB).click()
+        revert_drag_div = self.element_is_visible(self.locators.WILL_REVERT)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_REVERT)
+        self.action_drug_and_drop_to_element(revert_drag_div, drop_div)
+        position_to_drop = revert_drag_div.get_attribute('style')
+        time.sleep(0.5)
+        position_after_revert = revert_drag_div.get_attribute('style')
+        text = drop_div.text
+        return position_to_drop, position_after_revert, text
+
+    def drop_will_not_revert(self):
+        self.remove_footer()
+        self.element_is_visible(self.locators.REVERT_TAB).click()
+        not_revert_drag_div = self.element_is_visible(self.locators.WILL_NOT_REVERT)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_REVERT)
+        self.action_drug_and_drop_to_element(not_revert_drag_div, drop_div)
+        position_to_drop = not_revert_drag_div.get_attribute('style')
+        time.sleep(0.5)
+        position_after_revert = not_revert_drag_div.get_attribute('style')
+        text = drop_div.text
+        return position_to_drop, position_after_revert, text
 
