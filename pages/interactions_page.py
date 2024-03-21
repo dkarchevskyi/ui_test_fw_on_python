@@ -1,4 +1,6 @@
 import random
+import re
+
 import pytest
 import time
 
@@ -172,4 +174,46 @@ class DroppablePage(BasePage):
 class DragabblePage(BasePage):
     locators = DragabblePageLocators
 
-    pass
+    def get_position_before_and_after(self, drag_element):
+        self.action_drug_and_drop_by_offset(drag_element, random.randint(0, 100), random.randint(0, 100))
+        before_position = drag_element.get_attribute('style')
+        self.action_drug_and_drop_by_offset(drag_element, random.randint(0, 100), random.randint(0, 100))
+        after_position = drag_element.get_attribute('style')
+        return before_position, after_position
+
+    def simple_drag(self):
+        self.remove_footer()
+        self.element_is_visible(self.locators.SIMPLE_TAB).click()
+        simple_drag_me = self.element_is_visible(self.locators.SIMPLE_DRAG_ME)
+        position_before, position_after = self.get_position_before_and_after(simple_drag_me)
+        return position_before, position_after
+
+    def get_x_position(self, positions):
+        x_position = re.findall(r'\d[0-9]|\d]', positions.split(';')[1])
+        return x_position
+
+    def get_y_position(self, positions):
+        y_position = re.findall(r'\d[0-9]|\d]', positions.split(';')[2])
+        return y_position
+
+    def axis_restricted_x(self):
+        self.remove_footer()
+        self.element_is_visible(self.locators.AXIS_RESTRICTED_TAB).click()
+        x_drug_me = self.element_is_visible(self.locators.ONLY_X_DRUG_ME)
+        position = self.get_position_before_and_after(x_drug_me)
+        x_before = self.get_x_position(position[0])
+        x_after = self.get_x_position(position[1])
+        y_before = self.get_y_position(position[0])
+        y_after = self.get_y_position(position[1])
+        return x_before, x_after, y_before, y_after
+
+    def axis_restricted_y(self):
+        self.remove_footer()
+        self.element_is_visible(self.locators.AXIS_RESTRICTED_TAB).click()
+        y_drug_me = self.element_is_visible(self.locators.ONLY_Y_DRUG_ME)
+        position = self.get_position_before_and_after(y_drug_me)
+        x_before = self.get_x_position(position[0])
+        x_after = self.get_x_position(position[1])
+        y_before = self.get_y_position(position[0])
+        y_after = self.get_y_position(position[1])
+        return x_before, x_after, y_before, y_after

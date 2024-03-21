@@ -101,6 +101,23 @@ class TestDroppablePage:
 
 class TestDragabblePage:
     @pytest.mark.dragabble
-    def test_draggable(self, driver):
+    def test_simple_draggable(self, driver):
         dragabble_page = DragabblePage(driver, 'https://demoqa.com/dragabble')
         dragabble_page.open()
+        position_before, position_after = dragabble_page.simple_drag()
+        assert position_before != position_after, "Simple drag was not moved"
+
+    @pytest.mark.dragabble
+    def test_axis_restricted_draggable_x(self, driver):
+        dragabble_page = DragabblePage(driver, 'https://demoqa.com/dragabble')
+        dragabble_page.open()
+        x_before, x_after, y_before, y_after = dragabble_page.axis_restricted_x()
+        assert x_before != x_after and y_before == y_after, "X only drag was not moved"
+
+    @pytest.mark.dragabble
+    def test_axis_restricted_draggable_y(self, driver):
+        dragabble_page = DragabblePage(driver, 'https://demoqa.com/dragabble')
+        dragabble_page.open()
+        x_before, x_after, y_before, y_after = dragabble_page.axis_restricted_y()
+        assert x_before == x_after and y_before != y_after, "Y only drag was not moved"
+

@@ -55,4 +55,19 @@ class DroppablePageLocators:
 
 
 class DragabblePageLocators:
-    pass
+    # Simple
+    SIMPLE_TAB = (By.CSS_SELECTOR, 'a[id="draggableExample-tab-simple"]')
+    SIMPLE_DRAG_ME = (By.CSS_SELECTOR, 'div[id="draggableExample-tabpane-simple"] div[id="dragBox"]')
+    # Axis restricted
+    AXIS_RESTRICTED_TAB = (By.CSS_SELECTOR, 'a[id="draggableExample-tab-axisRestriction"]')
+    ONLY_X_DRUG_ME = (By.CSS_SELECTOR, 'div[id="restrictedX"]')
+    ONLY_Y_DRUG_ME = (By.CSS_SELECTOR, 'div[id="restrictedY"]')
+    # Container restricted
+    CONTAINER_RESTRICTED_TAB = (By.CSS_SELECTOR, 'a[id="draggableExample-tab-containerRestriction"]')
+    BOX_DRAG_ME = (By.CSS_SELECTOR, 'div[class="draggable ui-widget-content ui-draggable ui-draggable-handle"]')
+    PARENT_DRAG_ME = (By.CSS_SELECTOR, 'span[class="ui-widget-header ui-draggable ui-draggable-handle"]')
+    # Cursor style
+    CURSOR_STYLE_TAB = (By.CSS_SELECTOR, 'a[id="draggableExample-tab-cursorStyle"]')
+    CENTER_DRAG_ME = (By.CSS_SELECTOR, 'div[id="cursorCenter"]')
+    TOP_LEFT_DRAG_ME = (By.CSS_SELECTOR, 'div[id="cursorTopLeft"]')
+    BOTTOM_DRAG_ME = (By.CSS_SELECTOR, 'div[id="cursorBottom"]')
