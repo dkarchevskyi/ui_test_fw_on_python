@@ -2,7 +2,7 @@ import pytest
 import time
 
 import generator.generator
-from pages.interactions_page import SortablePage, SelectablePage, ResizablePage, DroppablePage
+from pages.interactions_page import SortablePage, SelectablePage, ResizablePage, DroppablePage, DragabblePage
 
 
 class TestSortablePage:
@@ -97,3 +97,10 @@ class TestDroppablePage:
         droppable_page.open()
         position_drop, position_revert, text = droppable_page.drop_will_not_revert()
         assert position_drop == position_revert and text == 'Dropped!', "Not Revert div was reverted"
+
+
+class TestDragabblePage:
+    @pytest.mark.dragabble
+    def test_draggable(self, driver):
+        dragabble_page = DragabblePage(driver, 'https://demoqa.com/dragabble')
+        dragabble_page.open()

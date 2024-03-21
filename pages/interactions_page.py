@@ -5,7 +5,7 @@ import time
 from selenium.common import TimeoutException
 
 from locators.interactions_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators, \
-    DroppablePageLocators
+    DroppablePageLocators, DragabblePageLocators
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 
@@ -168,3 +168,8 @@ class DroppablePage(BasePage):
         text = drop_div.text
         return position_to_drop, position_after_revert, text
 
+
+class DragabblePage(BasePage):
+    locators = DragabblePageLocators
+
+    pass

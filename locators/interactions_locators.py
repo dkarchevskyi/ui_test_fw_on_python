@@ -19,10 +19,12 @@ class SelectablePageLocators:
 
 
 class ResizablePageLocators:
-    RESIZABLE_BOX_HANDLE = (By.CSS_SELECTOR, 'div[class="constraint-area"] span[class="react-resizable-handle react-resizable-handle-se"]')
+    RESIZABLE_BOX_HANDLE = (
+    By.CSS_SELECTOR, 'div[class="constraint-area"] span[class="react-resizable-handle react-resizable-handle-se"]')
     RESIZABLE_BOX = (By.CSS_SELECTOR, 'div[id="resizableBoxWithRestriction"]')
-    RESIZABLE_HANDLE = (By.CSS_SELECTOR, 'div[class="resizable-nolimit mt-4"] span[class="react-resizable-handle react-resizable-handle-se"]')
-    RESIZABLE =(By.CSS_SELECTOR, 'div[id="resizable"]')
+    RESIZABLE_HANDLE = (By.CSS_SELECTOR,
+                        'div[class="resizable-nolimit mt-4"] span[class="react-resizable-handle react-resizable-handle-se"]')
+    RESIZABLE = (By.CSS_SELECTOR, 'div[id="resizable"]')
 
 
 class DroppablePageLocators:
@@ -50,3 +52,7 @@ class DroppablePageLocators:
     WILL_REVERT = (By.CSS_SELECTOR, 'div[id="revertable"]')
     WILL_NOT_REVERT = (By.CSS_SELECTOR, 'div[id="notRevertable"]')
     DROP_HERE_REVERT = (By.CSS_SELECTOR, 'div[id="revertableDropContainer"] div[id="droppable"]')
+
+
+class DragabblePageLocators:
+    pass
