@@ -1,3 +1,4 @@
+import allure
 import pytest
 import time
 
@@ -5,8 +6,11 @@ import generator.generator
 from pages.form_page import FormPage
 
 
+@allure.suite("Form")
 class TestFormPage:
 
+    @allure.feature("Form")
+    @allure.title("Form")
     @pytest.mark.form
     def test_form(self, driver):
         form_page = FormPage(driver, 'https://demoqa.com/automation-practice-form')
