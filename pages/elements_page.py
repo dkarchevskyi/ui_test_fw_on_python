@@ -46,7 +46,7 @@ class TextBoxPage(BasePage):
 class CheckBoxPage(BasePage):
     locators = CheckBoxPageLocators()
 
-    @allure.step("Open full list")
+    @allure.step("Open full list click")
     def open_full_list(self):
         self.element_is_visible(self.locators.EXPAND_ALL_BUTTON).click()
 
@@ -116,14 +116,15 @@ class WebTablePage(BasePage):
             age = person_info.age
             salary = person_info.salary
             department = person_info.department
-            self.element_is_visible(self.locators.ADD_BUTTON).click()
-            self.element_is_visible(self.locators.FIRST_NAME_INPUT).send_keys(first_name)
-            self.element_is_visible(self.locators.LAST_NAME_INPUT).send_keys(last_name)
-            self.element_is_visible(self.locators.EMAIL_INPUT).send_keys(email)
-            self.element_is_visible(self.locators.AGE_INPUT).send_keys(age)
-            self.element_is_visible(self.locators.SALARY_INPUT).send_keys(salary)
-            self.element_is_visible(self.locators.DEPARTMENT_INPUT).send_keys(department)
-            self.element_is_visible(self.locators.SUBMIT).click()
+            with allure.step("Filling fileds"):
+                self.element_is_visible(self.locators.ADD_BUTTON).click()
+                self.element_is_visible(self.locators.FIRST_NAME_INPUT).send_keys(first_name)
+                self.element_is_visible(self.locators.LAST_NAME_INPUT).send_keys(last_name)
+                self.element_is_visible(self.locators.EMAIL_INPUT).send_keys(email)
+                self.element_is_visible(self.locators.AGE_INPUT).send_keys(age)
+                self.element_is_visible(self.locators.SALARY_INPUT).send_keys(salary)
+                self.element_is_visible(self.locators.DEPARTMENT_INPUT).send_keys(department)
+                self.element_is_visible(self.locators.SUBMIT).click()
             count -= 1
             return [first_name, last_name, str(age), email, str(salary), department]
 
@@ -152,7 +153,8 @@ class WebTablePage(BasePage):
         person_info = next(generated_person())
         age = person_info.age
         self.element_is_visible(self.locators.UPDATE_BUTTON).click()
-        self.element_is_visible(self.locators.AGE_INPUT).clear()
+        with allure.step("Clear field"):
+            self.element_is_visible(self.locators.AGE_INPUT).clear()
         self.element_is_visible(self.locators.AGE_INPUT).send_keys(age)
         self.element_is_visible(self.locators.SUBMIT).click()
         return str(age)
